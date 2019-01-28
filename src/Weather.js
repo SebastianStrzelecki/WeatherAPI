@@ -1,5 +1,5 @@
 import React from 'react';
-
+import './Weather.css';
 
 
 const Weather = (props) => {
@@ -7,10 +7,12 @@ const Weather = (props) => {
     <div className="containerWeather">
     <div><h1>{props.city}</h1></div>
     <div>
-     <p>Temperature: {Math.round(props.temperature*100)/100}</p>
-     <p>Humidity: {props.humidity}</p>
-     <p>Country: {props.country}</p>
-     <p>Description: {props.description}</p>
+     <p>Temperatura: {Math.round(props.temperature)} &#176;C</p>
+     <p>Wilgotność: {props.humidity}%</p>
+     <p>Ciśnienie: {props.pressure} hpa</p>
+     <p>Wiatr: {props.windSpeed}m/s</p>
+     <p>Państwo: {props.country}</p>
+     <p>Pogoda: {props.description}</p>
     </div>
      
     

@@ -3,6 +3,7 @@ import React, {
 } from 'react';
 import './App.css';
 import Weather from './Weather.js';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const API = 'http://api.openweathermap.org/data/2.5/weather?q='
 const appiid ='&appid=96cb99ba3c51c4da43eef0c4bc50a33e';
@@ -21,12 +22,15 @@ class App extends Component {
       country: null,
       humidity: null,
       description: null,
+      pressure:"",
+      windSpeed:"",
       error: false,
-      valueCity: ""
+      valueCity: "Warsaw"
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handDownloadWeatherleSubmit = this.DownloadWeather.bind(this);
+    this.DownloadWeather = this.DownloadWeather.bind(this);
+    this.Translate = this.Translate.bind(this);
   }
 
   DownloadWeather(){
@@ -35,47 +39,39 @@ class App extends Component {
     .then(res => res.json())
     .then(
       (data) => {
-        if(data.cod=="400" || data.cod=="404"){
-          this.setState({error:true})
-        }
-        else{
         this.setState({
           isLoaded: true,
           temperature: (274-data.main.temp),
           city: data.name,
           country: data.sys.country,
           humidity: data.main.humidity,
-          description: data.weather[0].description,
+          description: data.weather[0].main,
+          pressure: data.main.pressure,
+          windSpeed: data.wind.speed,
           error:false
-        })}})
+        })})
+        .catch(error => this.setState({ error:true }));
   }
   componentDidMount() {
+    this.DownloadWeather();
    
-    // fetch(API+this.state.valueCity+appiid)
-    // .then(res => res.json())
-    // .then(
-    //   (data) => {
-    //     this.setState({
-    //       isLoaded: true,
-    //       temperature: (274-data.main.temp),
-    //       city: data.name,
-    //       country: data.sys.country,
-    //       humidity: data.main.humidity,
-    //       description: data.weather[0].description,
-    //     });
-    //   },
-    //   // Note: it's important to handle errors here
-    //   // instead of a catch() block so that we don't swallow
-    //   // exceptions from actual bugs in components.
-    //   (error) => {
-    //     this.setState({
-    //       isLoaded: true,
-    //       error
-    //     });
-    //   }
-    // )
     }
-
+    Translate(weatherMain){
+        switch (weatherMain) {
+          case "Mist":
+            return "Zamglenie";
+            case "Snow":
+            return "Śnieg"
+            case "Rain":
+            return "Deszcz"
+            case "Clouds":
+            return "Pochmurno"
+            case "Clear":
+            return "Przejaśnia się"
+          default:
+          return weatherMain;
+        }
+    }
     handleChange(event) {
       this.setState({valueCity: event.target.value});
     }
@@ -85,6 +81,10 @@ class App extends Component {
       event.preventDefault();
     }
   render() {
+    const today = new Date();
+    const dd = today.getDate();
+    const mm = today.getMonth() + 1; 
+    const yyyy = today.getFullYear();
     if(this.state.error){
       return(
         <div className="app" >Brak wybranej miejscowości 
@@ -99,23 +99,30 @@ class App extends Component {
       )
     }
     else{
-    return ( <div className="app" > 
+    return ( <div className="container">
+    <div className="row"> 
+    <div className="col-xl-8 offset-xl-2">
+    <p>Dzisiaj mamy {dd}.{mm}.{yyyy}</p>
      <Weather
-     temperature = {this.state.temperature}
-    
-     city= {this.state.city}
-     humidity=  {this.state.humidity}
+      temperature = {this.state.temperature}
+      city= {this.state.city}
+      humidity=  {this.state.humidity}
+      pressure ={this.state.pressure}
+      windSpeed = {this.state.windSpeed}
       country = {this.state.country}
-      description= {this.state.description}
+      description= {this.Translate(this.state.description)}
      />
-      <form onSubmit={this.handleSubmit}>
-        <label>
-          Name:
-          <input type="text" value={this.state.valueCity} onChange={this.handleChange} />
-        </label>
-        <input type="submit" value="Submit" />
+     </div>
+      <div className="col-xl-8 offset-xl-2">
+      <form onSubmit={this.handleSubmit} className="input-group">
+      <label>Miasto: </label>
+          <input placeholder="Podaj miasto" type="text" value={this.state.valueCity} onChange={this.handleChange} className="form-control"/>
+        <div className="input-group-append">
+        <button type="submit"  className="btn btn-outline-secondary">Wyszukaj</button>
+        </div>
       </form>
-
+      </div>
+      </div>
       </div>
     );}
   }

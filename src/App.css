@@ -36,3 +36,9 @@
   display: flex;
   justify-content: space-around;
 }
+.input-group label{
+  max-height: 100%;
+  line-height: 38px;
+  padding-right: 17px;
+  margin:0px;
+}
