@@ -5,7 +5,7 @@ import './App.css';
 import Weather from './Weather.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const API = 'http://api.openweathermap.org/data/2.5/weather?q='
+const API = 'https://api.openweathermap.org/data/2.5/weather?q='
 const appiid ='&appid=96cb99ba3c51c4da43eef0c4bc50a33e';
 
 class App extends Component {
