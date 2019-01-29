@@ -41,7 +41,7 @@ class App extends Component {
       (data) => {
         this.setState({
           isLoaded: true,
-          temperature: (274-data.main.temp),
+          temperature: (data.main.temp-274),
           city: data.name,
           country: data.sys.country,
           humidity: data.main.humidity,
@@ -87,22 +87,24 @@ class App extends Component {
     const yyyy = today.getFullYear();
     if(this.state.error){
       return(
-        <div className="app" >Brak wybranej miejscowości 
-        <form onSubmit={this.handleSubmit}>
-        <label>
-          Name:
-          <input type="text" value={this.state.valueCity} onChange={this.handleChange} />
-        </label>
-        <input type="submit" value="Submit" />
+        <div className="app" >
+        <h2 className="info">Brak wybranej miejscowości w bazie</h2> 
+        <form onSubmit={this.handleSubmit} className="input-group">
+      <label>Miasto: </label>
+          <input placeholder="Podaj miasto" type="text" value={this.state.valueCity} onChange={this.handleChange} className="form-control"/>
+        <div className="input-group-append">
+        <button type="submit"  className="btn btn-outline-secondary">Wyszukaj</button>
+        </div>
       </form>
         </div>
       )
     }
     else{
     return ( <div className="container">
+    <div className="main">
     <div className="row"> 
     <div className="col-xl-8 offset-xl-2">
-    <p>Dzisiaj mamy {dd}.{mm}.{yyyy}</p>
+    <p className="date">Dzisiaj mamy {dd}.{mm}.{yyyy}</p>
      <Weather
       temperature = {this.state.temperature}
       city= {this.state.city}
@@ -121,6 +123,7 @@ class App extends Component {
         <button type="submit"  className="btn btn-outline-secondary">Wyszukaj</button>
         </div>
       </form>
+      </div>
       </div>
       </div>
       </div>
