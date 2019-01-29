@@ -7,8 +7,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 const API = 'http://api.openweathermap.org/data/2.5/weather?q='
 const appiid ='&appid=96cb99ba3c51c4da43eef0c4bc50a33e';
-const APIFB= 'https://facebook.github.io/react-native/movies.json';
-const DEFAULT_QUERY = 'redux';
 
 class App extends Component {
 
