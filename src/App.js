@@ -100,10 +100,13 @@ class App extends Component {
       )
     }
     else{
-    return ( <div className="container">
+    return ( 
+    <div className="container">
+
     <div className="main">
     <div className="row"> 
     <div className="col-xl-8 offset-xl-2">
+    
     <p className="date">Dzisiaj mamy {dd}.{mm}.{yyyy}</p>
      <Weather
       temperature = {this.state.temperature}
